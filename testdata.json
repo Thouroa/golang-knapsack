@@ -1,0 +1,25 @@
+{
+    "Limit": 1000,
+    "Items": [
+        {
+            "Name": "Strawberry",
+            "Weight": 200,
+            "Value": 24000
+        },
+        {
+            "Name": "Banana",
+            "Weight": 500,
+            "Value": 6500
+        },
+        {
+            "Name": "Mango",
+            "Weight": 300,
+            "Value": 18600
+        },
+        {
+            "Name": "Apple",
+            "Weight": 100,
+            "Value": 9000
+        }
+    ]
+}
