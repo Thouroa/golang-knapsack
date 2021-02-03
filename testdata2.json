@@ -4,22 +4,26 @@
         {
             "Name": "Strawberry",
             "Weight": 2,
-            "Value": 240
+            "Value": 240,
+            "Count": 4
         },
         {
             "Name": "Banana",
             "Weight": 5,
-            "Value": 65
+            "Value": 65,
+            "Count": 10
         },
         {
             "Name": "Mango",
             "Weight": 3,
-            "Value": 186
+            "Value": 186,
+            "Count": 1
         },
         {
             "Name": "Apple",
             "Weight": 1,
-            "Value": 90
+            "Value": 90,
+            "Count": 1
         }
     ]
 }
