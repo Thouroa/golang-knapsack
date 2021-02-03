@@ -14,6 +14,7 @@ type Item struct {
 	Name   string
 	Weight int
 	Value  int
+	Count  int
 }
 
 type Knapsack struct {
@@ -38,9 +39,11 @@ func main() {
 
 	Fractional(kanpsack)
 	ZeroOrOne(kanpsack)
+	Unboarded(kanpsack)
+	Boarded(kanpsack)
 }
 
-//Fractional
+// Fractional
 func Fractional(pack Knapsack) {
 	TotalValue := 0
 	remainingSize := pack.Limit
@@ -70,25 +73,58 @@ func Fractional(pack Knapsack) {
 
 // Zero-Or-One
 func ZeroOrOne(pack Knapsack) {
-	type Cost struct {
-		Cost  int
-		Items []string
-	}
-	cost := make([]Cost, pack.Limit+1)
+	cost := make([]int, pack.Limit+1)
 	for i := range pack.Items {
 		Value := pack.Items[i].Value
 		Weight := pack.Items[i].Weight
-		Name := pack.Items[i].Name
-		for j := pack.Limit; j-Weight >= 0; j-- {
-			if cost[j-Weight].Cost+Value > cost[j].Cost {
-				cost[j].Cost = cost[j-Weight].Cost + Value
-				cost[j].Items = append(cost[j].Items, Name)
+		for j := pack.Limit; j >= Weight; j-- {
+			if cost[j-Weight]+Value > cost[j] {
+				cost[j] = cost[j-Weight] + Value
 			}
 		}
 	}
 
-	fmt.Println("Zero-Or-One:\t", cost[pack.Limit].Cost, cost[pack.Limit].Items)
+	fmt.Println("Zero-Or-One:\t", cost[pack.Limit])
 }
 
 // Unboarded
+func Unboarded(pack Knapsack) {
+	cost := make([]int, pack.Limit+1)
+	for i := range pack.Items {
+		Value := pack.Items[i].Value
+		Weight := pack.Items[i].Weight
+		for count := 1; count*Weight <= pack.Limit; count++ {
+			c_Value := Value * count
+			c_Weight := Weight * count
+			for j := pack.Limit; j >= c_Weight; j-- {
+				if cost[j-c_Weight]+c_Value > cost[j] {
+					cost[j] = cost[j-c_Weight] + c_Value
+				}
+			}
+		}
+	}
+
+	fmt.Println("Unboarded:\t", cost[pack.Limit])
+}
+
 // Boarded
+func Boarded(pack Knapsack) {
+	cost := make([]int, pack.Limit+1)
+	tmpPack := pack
+	for _, i := range tmpPack.Items {
+		for n := 1; n < i.Count; n++ {
+			pack.Items = append(pack.Items, i)
+		}
+	}
+	for i := range pack.Items {
+		Value := pack.Items[i].Value
+		Weight := pack.Items[i].Weight
+		for j := pack.Limit; j >= Weight; j-- {
+			if cost[j-Weight]+Value > cost[j] {
+				cost[j] = cost[j-Weight] + Value
+			}
+		}
+	}
+
+	fmt.Println("Boarded:\t", cost[pack.Limit])
+}
